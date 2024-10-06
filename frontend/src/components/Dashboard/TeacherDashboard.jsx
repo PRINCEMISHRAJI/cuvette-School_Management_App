@@ -17,7 +17,7 @@ const TeacherDashboard = () => {
       }
 
       const userId = jwtDecode(token).userId; // Get userId from token
-      const response = await fetch(`http://localhost:5000/api/teacher/${userId}`, {
+      const response = await fetch(`/api/teacher/${userId}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

@@ -71,7 +71,7 @@ function MainComponent() {
       }
       console.log("Submitting payload:", payload); 
 
-      const response = await fetch(`http://localhost:5000/api/${selectedModel.toLowerCase()}/`, {
+      const response = await fetch(`/api/${selectedModel.toLowerCase()}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

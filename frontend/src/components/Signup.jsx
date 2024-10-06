@@ -24,7 +24,7 @@ const SignupPage = () => {
         e.preventDefault();
         setIsLoading(true); // Set loading to true when the form is submitted
 
-        const response = await fetch('http://localhost:5000/api/auth/signup', {
+        const response = await fetch('/api/auth/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

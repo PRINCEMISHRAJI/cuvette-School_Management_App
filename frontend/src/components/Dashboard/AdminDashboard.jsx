@@ -13,7 +13,7 @@ const AdminDashboard = () => {
             const token = localStorage.getItem('jwtToken');
         
             // Fetch classes data
-            const classResponse = await fetch('http://localhost:5000/api/class', {
+            const classResponse = await fetch('/api/class', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -29,7 +29,7 @@ const AdminDashboard = () => {
             const classesData = await classResponse.json();
             setAdminData({ classes: classesData });
             
-            const teacherResponse = await fetch('http://localhost:5000/api/teacher/', {
+            const teacherResponse = await fetch('/api/teacher/', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
             console.log('Total Teacher Salary:', totalSalary); // Debugging log
         
             // Fetch students data to calculate total fees received
-            const studentResponse = await fetch('http://localhost:5000/api/student/', {
+            const studentResponse = await fetch('/api/student/', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ const AdminDashboard = () => {
         const token = localStorage.getItem('jwtToken');
 
             // Fetch classes data
-            const response = await fetch(`http://localhost:5000/api/class/${classId}`, {
+            const response = await fetch(`/api/class/${classId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,

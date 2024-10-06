@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { Bar } from 'react-chartjs-2';
 import Modal from '../Modal'; // Import the modal component
 import Table from '../Table'; // Import the Table component
@@ -17,6 +17,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const AnalyticsDashboard = () => {
     const { classId } = useParams();
+    const navigate = useNavigate(); // Initialize useNavigate
     const [classData, setClassData] = useState(null);
     const [studentsData, setStudentsData] = useState([]);
     const [teacherData, setTeacherData] = useState(null); // State for teacher data
@@ -33,7 +34,7 @@ const AnalyticsDashboard = () => {
     useEffect(() => {
         const fetchClassData = async () => {
             const token = localStorage.getItem('jwtToken');
-            const response = await fetch(`http://localhost:5000/api/class/${classId}`, {
+            const response = await fetch(`/api/class/${classId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -51,7 +52,7 @@ const AnalyticsDashboard = () => {
 
             // Fetch teacher details
             if (data.teacher) {
-                const teacherResponse = await fetch(`http://localhost:5000/api/teacher/teacher/${data.teacher}`, {
+                const teacherResponse = await fetch(`/api/teacher/teacher/${data.teacher}`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -66,7 +67,7 @@ const AnalyticsDashboard = () => {
 
             // Fetch student details
             const studentResponses = await Promise.all(data.students.map(studentId =>
-                fetch(`http://localhost:5000/api/student/student/${studentId}`, {
+                fetch(`/api/student/student/${studentId}`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -93,8 +94,9 @@ const AnalyticsDashboard = () => {
     }, [classId]);
 
     const handleAddStudent = async () => {
+        console.log('Student ID to add:', studentIdToAdd); // Check if this is valid
         const token = localStorage.getItem('jwtToken');
-        const response = await fetch(`http://localhost:5000/api/class/${classId}/assign-student`, {
+        const response = await fetch(`/api/class/${classId}/assign-student`, {
             method: 'PUT',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -102,7 +104,7 @@ const AnalyticsDashboard = () => {
             },
             body: JSON.stringify({ studentId: studentIdToAdd }),
         });
-
+    
         if (response.ok) {
             window.location.reload();
         } else {
@@ -112,7 +114,7 @@ const AnalyticsDashboard = () => {
 
     const handleAssignTeacher = async (teacherId) => {
         const token = localStorage.getItem('jwtToken');
-        const response = await fetch(`http://localhost:5000/api/teacher/${teacherId}/assign-class`, {
+        const response = await fetch(`/api/teacher/${teacherId}/assign-class`, {
             method: 'PUT',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -150,7 +152,14 @@ const AnalyticsDashboard = () => {
     }));
 
     return (
-        <div className="bg-gradient-to-r from-purple-200 to-blue-300 p-8 rounded-lg shadow-lg w-full max-w-6xl mx-auto">
+        <div className="bg-gradient-to-r from-purple-200 to-blue-300 p-8 rounded-lg shadow-lg w-full max-w-6xl mx-auto relative">
+            <button
+                className="absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-300"
+                onClick={() => navigate('/dashboard')} // Navigate to dashboard
+            >
+                Go Back
+            </button>
+
             <h1 className="text-4xl font-bold text-center mb-6 text-gray-800">{classData.name} - Analytics</h1>
             <div className="mb-6">
                 <Bar data={data} options={{ responsive: true, maintainAspectRatio: false }} />

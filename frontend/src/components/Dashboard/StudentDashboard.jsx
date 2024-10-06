@@ -17,7 +17,7 @@ const StudentDashboard = () => {
       }
 
       const userId = jwtDecode(token).userId;
-      const response = await fetch(`http://localhost:5000/api/student/${userId}`, {
+      const response = await fetch(`/api/student/${userId}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ const StudentDashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('jwtToken'); // Remove the token
-    navigate('/login'); // Redirect to the login page
+    navigate('/'); // Redirect to the login page
   };
 
   if (loading) return <div>Loading...</div>;

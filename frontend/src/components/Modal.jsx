@@ -1,12 +1,10 @@
 import React from 'react';
 
-const Modal = ({ isOpen, onClose, onSubmit, title, inputLabel }) => {
-    const [inputValue, setInputValue] = React.useState('');
-
+const Modal = ({ isOpen, onClose, onSubmit, title, inputLabel, inputValue, onInputChange }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(inputValue);
-        setInputValue('');
+        onSubmit(inputValue); // Send the current value of studentIdToAdd
+        onInputChange(''); // Clear the input value in the parent state
         onClose();
     };
 
@@ -20,8 +18,8 @@ const Modal = ({ isOpen, onClose, onSubmit, title, inputLabel }) => {
                     <label className="block mb-2">{inputLabel}</label>
                     <input
                         type="text"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
+                        value={inputValue} // Use the value from the parent state
+                        onChange={(e) => onInputChange(e.target.value)} // Update the parent state
                         className="border p-2 rounded w-full mb-4"
                         required
                     />
